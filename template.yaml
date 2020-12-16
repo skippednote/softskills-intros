@@ -1,0 +1,578 @@
+Resources:
+  TrimMediaServiceRoleDB27A463:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+        Version: "2012-10-17"
+      ManagedPolicyArns:
+        - Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - :iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+    Metadata:
+      aws:cdk:path: SoftskillsStack/TrimMedia/ServiceRole/Resource
+  TrimMedia8CC5EA7B:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        S3Bucket:
+          Ref: AssetParameters78ce70cc178a070e1811b5885945022c5f71158f84b6353ceaa722051285a37dS3Bucket9C41820F
+        S3Key:
+          Fn::Join:
+            - ""
+            - - Fn::Select:
+                  - 0
+                  - Fn::Split:
+                      - "||"
+                      - Ref: AssetParameters78ce70cc178a070e1811b5885945022c5f71158f84b6353ceaa722051285a37dS3VersionKey27F20DD2
+              - Fn::Select:
+                  - 1
+                  - Fn::Split:
+                      - "||"
+                      - Ref: AssetParameters78ce70cc178a070e1811b5885945022c5f71158f84b6353ceaa722051285a37dS3VersionKey27F20DD2
+      Handler: index.handler
+      Role:
+        Fn::GetAtt:
+          - TrimMediaServiceRoleDB27A463
+          - Arn
+      Runtime: nodejs10.x
+      Layers:
+        - arn:aws:lambda:us-east-1:448159408791:layer:ffmpeg:1
+    DependsOn:
+      - TrimMediaServiceRoleDB27A463
+    Metadata:
+      aws:cdk:path: SoftskillsStack/TrimMedia/Resource
+      aws:asset:path: asset.78ce70cc178a070e1811b5885945022c5f71158f84b6353ceaa722051285a37d
+      aws:asset:property: Code
+  GetFeedServiceRole230BDC07:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+        Version: "2012-10-17"
+      ManagedPolicyArns:
+        - Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - :iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+    Metadata:
+      aws:cdk:path: SoftskillsStack/GetFeed/ServiceRole/Resource
+  GetFeedServiceRoleDefaultPolicy570AE03D:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action: lambda:InvokeFunction
+            Effect: Allow
+            Resource:
+              Fn::GetAtt:
+                - TrimMedia8CC5EA7B
+                - Arn
+        Version: "2012-10-17"
+      PolicyName: GetFeedServiceRoleDefaultPolicy570AE03D
+      Roles:
+        - Ref: GetFeedServiceRole230BDC07
+    Metadata:
+      aws:cdk:path: SoftskillsStack/GetFeed/ServiceRole/DefaultPolicy/Resource
+  GetFeedC1244ECB:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        S3Bucket:
+          Ref: AssetParametersce63dfa01088c4efb1d9c77186d29c781d1531857fd00c6cd08344cc4e3e427bS3Bucket0901A742
+        S3Key:
+          Fn::Join:
+            - ""
+            - - Fn::Select:
+                  - 0
+                  - Fn::Split:
+                      - "||"
+                      - Ref: AssetParametersce63dfa01088c4efb1d9c77186d29c781d1531857fd00c6cd08344cc4e3e427bS3VersionKeyE89ADAC9
+              - Fn::Select:
+                  - 1
+                  - Fn::Split:
+                      - "||"
+                      - Ref: AssetParametersce63dfa01088c4efb1d9c77186d29c781d1531857fd00c6cd08344cc4e3e427bS3VersionKeyE89ADAC9
+      Handler: index.handler
+      Role:
+        Fn::GetAtt:
+          - GetFeedServiceRole230BDC07
+          - Arn
+      Runtime: nodejs12.x
+      Environment:
+        Variables:
+          TRIM_MEDIA_ARN:
+            Fn::GetAtt:
+              - TrimMedia8CC5EA7B
+              - Arn
+    DependsOn:
+      - GetFeedServiceRoleDefaultPolicy570AE03D
+      - GetFeedServiceRole230BDC07
+    Metadata:
+      aws:cdk:path: SoftskillsStack/GetFeed/Resource
+      aws:asset:path: asset.ce63dfa01088c4efb1d9c77186d29c781d1531857fd00c6cd08344cc4e3e427b
+      aws:asset:property: Code
+  TranslateClipServiceRole1A9EEDBE:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+        Version: "2012-10-17"
+      ManagedPolicyArns:
+        - Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - :iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+    Metadata:
+      aws:cdk:path: SoftskillsStack/TranslateClip/ServiceRole/Resource
+  TranslateClip32FC969B:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        S3Bucket:
+          Ref: AssetParameters78ce70cc178a070e1811b5885945022c5f71158f84b6353ceaa722051285a37dS3Bucket9C41820F
+        S3Key:
+          Fn::Join:
+            - ""
+            - - Fn::Select:
+                  - 0
+                  - Fn::Split:
+                      - "||"
+                      - Ref: AssetParameters78ce70cc178a070e1811b5885945022c5f71158f84b6353ceaa722051285a37dS3VersionKey27F20DD2
+              - Fn::Select:
+                  - 1
+                  - Fn::Split:
+                      - "||"
+                      - Ref: AssetParameters78ce70cc178a070e1811b5885945022c5f71158f84b6353ceaa722051285a37dS3VersionKey27F20DD2
+      Handler: index.handler
+      Role:
+        Fn::GetAtt:
+          - TranslateClipServiceRole1A9EEDBE
+          - Arn
+      Runtime: nodejs12.x
+    DependsOn:
+      - TranslateClipServiceRole1A9EEDBE
+    Metadata:
+      aws:cdk:path: SoftskillsStack/TranslateClip/Resource
+      aws:asset:path: asset.78ce70cc178a070e1811b5885945022c5f71158f84b6353ceaa722051285a37d
+      aws:asset:property: Code
+  StoreOnDynamoServiceRole41152BFA:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+        Version: "2012-10-17"
+      ManagedPolicyArns:
+        - Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - :iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+    Metadata:
+      aws:cdk:path: SoftskillsStack/StoreOnDynamo/ServiceRole/Resource
+  StoreOnDynamoDC9BA30D:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        S3Bucket:
+          Ref: AssetParameters78ce70cc178a070e1811b5885945022c5f71158f84b6353ceaa722051285a37dS3Bucket9C41820F
+        S3Key:
+          Fn::Join:
+            - ""
+            - - Fn::Select:
+                  - 0
+                  - Fn::Split:
+                      - "||"
+                      - Ref: AssetParameters78ce70cc178a070e1811b5885945022c5f71158f84b6353ceaa722051285a37dS3VersionKey27F20DD2
+              - Fn::Select:
+                  - 1
+                  - Fn::Split:
+                      - "||"
+                      - Ref: AssetParameters78ce70cc178a070e1811b5885945022c5f71158f84b6353ceaa722051285a37dS3VersionKey27F20DD2
+      Handler: index.handler
+      Role:
+        Fn::GetAtt:
+          - StoreOnDynamoServiceRole41152BFA
+          - Arn
+      Runtime: nodejs12.x
+    DependsOn:
+      - StoreOnDynamoServiceRole41152BFA
+    Metadata:
+      aws:cdk:path: SoftskillsStack/StoreOnDynamo/Resource
+      aws:asset:path: asset.78ce70cc178a070e1811b5885945022c5f71158f84b6353ceaa722051285a37d
+      aws:asset:property: Code
+  ClipsB3D3E9AA:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: softskillsclips
+    UpdateReplacePolicy: Delete
+    DeletionPolicy: Delete
+    Metadata:
+      aws:cdk:path: SoftskillsStack/Clips/Resource
+  ClipsNotificationsFAD1CD74:
+    Type: Custom::S3BucketNotifications
+    Properties:
+      ServiceToken:
+        Fn::GetAtt:
+          - BucketNotificationsHandler050a0587b7544547bf325f094a3db8347ECC3691
+          - Arn
+      BucketName:
+        Ref: ClipsB3D3E9AA
+      NotificationConfiguration:
+        LambdaFunctionConfigurations:
+          - Events:
+              - s3:ObjectCreated:*
+            LambdaFunctionArn:
+              Fn::GetAtt:
+                - TranslateClip32FC969B
+                - Arn
+    DependsOn:
+      - ClipsAllowBucketNotificationsToSoftskillsStackTranslateClip5D2D5A7AD732A735
+    Metadata:
+      aws:cdk:path: SoftskillsStack/Clips/Notifications/Resource
+  ClipsPolicy2A68A7E4:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket:
+        Ref: ClipsB3D3E9AA
+      PolicyDocument:
+        Statement:
+          - Action: s3:GetObject
+            Effect: Allow
+            Principal: "*"
+            Resource:
+              Fn::Join:
+                - ""
+                - - Fn::GetAtt:
+                      - ClipsB3D3E9AA
+                      - Arn
+                  - /*
+        Version: "2012-10-17"
+    Metadata:
+      aws:cdk:path: SoftskillsStack/Clips/Policy/Resource
+  ClipsAllowBucketNotificationsToSoftskillsStackTranslateClip5D2D5A7AD732A735:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - TranslateClip32FC969B
+          - Arn
+      Principal: s3.amazonaws.com
+      SourceAccount:
+        Ref: AWS::AccountId
+      SourceArn:
+        Fn::GetAtt:
+          - ClipsB3D3E9AA
+          - Arn
+    Metadata:
+      aws:cdk:path: SoftskillsStack/Clips/AllowBucketNotificationsToSoftskillsStackTranslateClip5D2D5A7A
+  BucketNotificationsHandler050a0587b7544547bf325f094a3db834RoleB6FB88EC:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+        Version: "2012-10-17"
+      ManagedPolicyArns:
+        - Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - :iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+    Metadata:
+      aws:cdk:path: SoftskillsStack/BucketNotificationsHandler050a0587b7544547bf325f094a3db834/Role/Resource
+  BucketNotificationsHandler050a0587b7544547bf325f094a3db834RoleDefaultPolicy2CF63D36:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action: s3:PutBucketNotification
+            Effect: Allow
+            Resource: "*"
+        Version: "2012-10-17"
+      PolicyName: BucketNotificationsHandler050a0587b7544547bf325f094a3db834RoleDefaultPolicy2CF63D36
+      Roles:
+        - Ref: BucketNotificationsHandler050a0587b7544547bf325f094a3db834RoleB6FB88EC
+    Metadata:
+      aws:cdk:path: SoftskillsStack/BucketNotificationsHandler050a0587b7544547bf325f094a3db834/Role/DefaultPolicy/Resource
+  BucketNotificationsHandler050a0587b7544547bf325f094a3db8347ECC3691:
+    Type: AWS::Lambda::Function
+    Properties:
+      Description: AWS CloudFormation handler for "Custom::S3BucketNotifications" resources (@aws-cdk/aws-s3)
+      Code:
+        ZipFile: >-
+          exports.handler = (event, context) => {
+              // eslint-disable-next-line @typescript-eslint/no-require-imports, import/no-extraneous-dependencies
+              const s3 = new (require('aws-sdk').S3)();
+              // eslint-disable-next-line @typescript-eslint/no-require-imports
+              const https = require('https');
+              // eslint-disable-next-line @typescript-eslint/no-require-imports
+              const url = require('url');
+              log(JSON.stringify(event, undefined, 2));
+              const props = event.ResourceProperties;
+              if (event.RequestType === 'Delete') {
+                  props.NotificationConfiguration = {}; // this is how you clean out notifications
+              }
+              const req = {
+                  Bucket: props.BucketName,
+                  NotificationConfiguration: props.NotificationConfiguration,
+              };
+              return s3.putBucketNotificationConfiguration(req, (err, data) => {
+                  log({ err, data });
+                  if (err) {
+                      return submitResponse('FAILED', err.message + `\nMore information in CloudWatch Log Stream: ${context.logStreamName}`);
+                  }
+                  else {
+                      return submitResponse('SUCCESS');
+                  }
+              });
+              function log(obj) {
+                  console.error(event.RequestId, event.StackId, event.LogicalResourceId, obj);
+              }
+              // eslint-disable-next-line max-len
+              // adapted from https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-lambda-function-code.html#cfn-lambda-function-code-cfnresponsemodule
+              // to allow sending an error messge as a reason.
+              function submitResponse(responseStatus, reason) {
+                  const responseBody = JSON.stringify({
+                      Status: responseStatus,
+                      Reason: reason || 'See the details in CloudWatch Log Stream: ' + context.logStreamName,
+                      PhysicalResourceId: event.PhysicalResourceId || event.LogicalResourceId,
+                      StackId: event.StackId,
+                      RequestId: event.RequestId,
+                      LogicalResourceId: event.LogicalResourceId,
+                      NoEcho: false,
+                  });
+                  log({ responseBody });
+                  const parsedUrl = url.parse(event.ResponseURL);
+                  const options = {
+                      hostname: parsedUrl.hostname,
+                      port: 443,
+                      path: parsedUrl.path,
+                      method: 'PUT',
+                      headers: {
+                          'content-type': '',
+                          'content-length': responseBody.length,
+                      },
+                  };
+                  const request = https.request(options, (r) => {
+                      log({ statusCode: r.statusCode, statusMessage: r.statusMessage });
+                      context.done();
+                  });
+                  request.on('error', (error) => {
+                      log({ sendError: error });
+                      context.done();
+                  });
+                  request.write(responseBody);
+                  request.end();
+              }
+          };
+      Handler: index.handler
+      Role:
+        Fn::GetAtt:
+          - BucketNotificationsHandler050a0587b7544547bf325f094a3db834RoleB6FB88EC
+          - Arn
+      Runtime: nodejs10.x
+      Timeout: 300
+    DependsOn:
+      - BucketNotificationsHandler050a0587b7544547bf325f094a3db834RoleDefaultPolicy2CF63D36
+      - BucketNotificationsHandler050a0587b7544547bf325f094a3db834RoleB6FB88EC
+    Metadata:
+      aws:cdk:path: SoftskillsStack/BucketNotificationsHandler050a0587b7544547bf325f094a3db834/Resource
+  TranlationsCAAD5CC6:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: softskillstranslations
+    UpdateReplacePolicy: Delete
+    DeletionPolicy: Delete
+    Metadata:
+      aws:cdk:path: SoftskillsStack/Tranlations/Resource
+  TranlationsNotificationsC9289C3F:
+    Type: Custom::S3BucketNotifications
+    Properties:
+      ServiceToken:
+        Fn::GetAtt:
+          - BucketNotificationsHandler050a0587b7544547bf325f094a3db8347ECC3691
+          - Arn
+      BucketName:
+        Ref: TranlationsCAAD5CC6
+      NotificationConfiguration:
+        LambdaFunctionConfigurations:
+          - Events:
+              - s3:ObjectCreated:*
+            LambdaFunctionArn:
+              Fn::GetAtt:
+                - StoreOnDynamoDC9BA30D
+                - Arn
+    DependsOn:
+      - TranlationsAllowBucketNotificationsToSoftskillsStackStoreOnDynamoEA8A8B41C25615E8
+    Metadata:
+      aws:cdk:path: SoftskillsStack/Tranlations/Notifications/Resource
+  TranlationsPolicy4AFFB664:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket:
+        Ref: TranlationsCAAD5CC6
+      PolicyDocument:
+        Statement:
+          - Action: s3:GetObject
+            Effect: Allow
+            Principal: "*"
+            Resource:
+              Fn::Join:
+                - ""
+                - - Fn::GetAtt:
+                      - TranlationsCAAD5CC6
+                      - Arn
+                  - /*
+        Version: "2012-10-17"
+    Metadata:
+      aws:cdk:path: SoftskillsStack/Tranlations/Policy/Resource
+  TranlationsAllowBucketNotificationsToSoftskillsStackStoreOnDynamoEA8A8B41C25615E8:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - StoreOnDynamoDC9BA30D
+          - Arn
+      Principal: s3.amazonaws.com
+      SourceAccount:
+        Ref: AWS::AccountId
+      SourceArn:
+        Fn::GetAtt:
+          - TranlationsCAAD5CC6
+          - Arn
+    Metadata:
+      aws:cdk:path: SoftskillsStack/Tranlations/AllowBucketNotificationsToSoftskillsStackStoreOnDynamoEA8A8B41
+  TableCD117FA1:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+    UpdateReplacePolicy: Retain
+    DeletionPolicy: Retain
+    Metadata:
+      aws:cdk:path: SoftskillsStack/Table/Resource
+  CDKMetadata:
+    Type: AWS::CDK::Metadata
+    Properties:
+      Modules: aws-cdk=1.78.0,@aws-cdk/assets=1.78.0,@aws-cdk/aws-applicationautoscaling=1.78.0,@aws-cdk/aws-autoscaling-common=1.78.0,@aws-cdk/aws-cloudwatch=1.78.0,@aws-cdk/aws-codeguruprofiler=1.78.0,@aws-cdk/aws-dynamodb=1.78.0,@aws-cdk/aws-ec2=1.78.0,@aws-cdk/aws-ecr=1.78.0,@aws-cdk/aws-ecr-assets=1.78.0,@aws-cdk/aws-events=1.78.0,@aws-cdk/aws-iam=1.78.0,@aws-cdk/aws-kms=1.78.0,@aws-cdk/aws-lambda=1.78.0,@aws-cdk/aws-logs=1.78.0,@aws-cdk/aws-s3=1.78.0,@aws-cdk/aws-s3-assets=1.78.0,@aws-cdk/aws-s3-notifications=1.78.0,@aws-cdk/aws-sqs=1.78.0,@aws-cdk/aws-ssm=1.78.0,@aws-cdk/cloud-assembly-schema=1.78.0,@aws-cdk/core=1.78.0,@aws-cdk/custom-resources=1.78.0,@aws-cdk/cx-api=1.78.0,@aws-cdk/region-info=1.78.0,jsii-runtime=node.js/v14.15.0
+    Metadata:
+      aws:cdk:path: SoftskillsStack/CDKMetadata/Default
+    Condition: CDKMetadataAvailable
+Parameters:
+  AssetParameters78ce70cc178a070e1811b5885945022c5f71158f84b6353ceaa722051285a37dS3Bucket9C41820F:
+    Type: String
+    Description: S3 bucket for asset "78ce70cc178a070e1811b5885945022c5f71158f84b6353ceaa722051285a37d"
+  AssetParameters78ce70cc178a070e1811b5885945022c5f71158f84b6353ceaa722051285a37dS3VersionKey27F20DD2:
+    Type: String
+    Description: S3 key for asset version "78ce70cc178a070e1811b5885945022c5f71158f84b6353ceaa722051285a37d"
+  AssetParameters78ce70cc178a070e1811b5885945022c5f71158f84b6353ceaa722051285a37dArtifactHashEADE3ED2:
+    Type: String
+    Description: Artifact hash for asset "78ce70cc178a070e1811b5885945022c5f71158f84b6353ceaa722051285a37d"
+  AssetParametersce63dfa01088c4efb1d9c77186d29c781d1531857fd00c6cd08344cc4e3e427bS3Bucket0901A742:
+    Type: String
+    Description: S3 bucket for asset "ce63dfa01088c4efb1d9c77186d29c781d1531857fd00c6cd08344cc4e3e427b"
+  AssetParametersce63dfa01088c4efb1d9c77186d29c781d1531857fd00c6cd08344cc4e3e427bS3VersionKeyE89ADAC9:
+    Type: String
+    Description: S3 key for asset version "ce63dfa01088c4efb1d9c77186d29c781d1531857fd00c6cd08344cc4e3e427b"
+  AssetParametersce63dfa01088c4efb1d9c77186d29c781d1531857fd00c6cd08344cc4e3e427bArtifactHash25A5FC1D:
+    Type: String
+    Description: Artifact hash for asset "ce63dfa01088c4efb1d9c77186d29c781d1531857fd00c6cd08344cc4e3e427b"
+Conditions:
+  CDKMetadataAvailable:
+    Fn::Or:
+      - Fn::Or:
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-east-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-northeast-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-northeast-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-southeast-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-southeast-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ca-central-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - cn-north-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - cn-northwest-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-central-1
+      - Fn::Or:
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-north-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-west-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-west-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-west-3
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - me-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - sa-east-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-east-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-east-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-west-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-west-2
+

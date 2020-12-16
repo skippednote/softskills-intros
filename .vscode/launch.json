@@ -1,0 +1,21 @@
+{
+  "configurations": [
+    {
+      "type": "aws-sam",
+      "request": "direct-invoke",
+      "name": "fns:index.handler (nodejs12.x)",
+      "invokeTarget": {
+        "target": "code",
+        "projectRoot": "fns/getFeed",
+        "lambdaHandler": "index.handler"
+      },
+      "lambda": {
+        "runtime": "nodejs12.x",
+        "payload": {},
+        "environmentVariables": {
+          "TRIM_MEDIA_ARN": "arn:aws:lambda:us-east-1:448159408791:function:SoftskillsStack-TrimMedia8CC5EA7B-1NF39Z79Y7ONT"
+        }
+      }
+    }
+  ]
+}

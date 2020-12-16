@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>It takes more than great code to be a great engineer</title>
+  </head>
+  <body>
+    <h1>It takes more than great code to be a great engineer</h1>
+
+    <script>
+      async function main() {
+        const list = document.getElementById('ul');
+        const fragment = document.createDocumentFragment();
+        const bytes = await fetch('/api/bytes').then((r) => r.json());
+        bytes.map(({ ep, text }) => {
+          var item = document.createElement('li');
+          item.textContent = `${ep}: ${text}`;
+          fragment.appendChild(list);
+        });
+        list.appendChild(fragment);
+        document.body.appendChild(list);
+      }
+      main();
+    </script>
+  </body>
+</html>

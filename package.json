@@ -8,20 +8,37 @@
     "build": "tsc",
     "watch": "tsc -w",
     "test": "jest",
-    "cdk": "cdk"
+    "cdk": "cdk",
+    "predeploy": "npm run build",
+    "deploy": "npm run cdk deploy"
   },
   "devDependencies": {
     "@aws-cdk/assert": "1.78.0",
+    "@aws-cdk/aws-apigateway": "^1.78.0",
+    "@aws-cdk/aws-apigatewayv2": "^1.78.0",
+    "@aws-cdk/aws-apigatewayv2-integrations": "^1.78.0",
+    "@aws-cdk/aws-cloudfront": "^1.78.0",
+    "@aws-cdk/aws-dynamodb": "^1.78.0",
+    "@aws-cdk/aws-lambda": "^1.78.0",
+    "@aws-cdk/aws-lambda-event-sources": "^1.78.0",
+    "@aws-cdk/aws-s3": "^1.78.0",
+    "@aws-cdk/aws-s3-deployment": "^1.78.0",
+    "@aws-cdk/aws-s3-notifications": "^1.78.0",
+    "@aws-cdk/aws-sqs": "^1.78.0",
     "@types/jest": "^26.0.10",
     "@types/node": "10.17.27",
+    "aws-cdk": "1.78.0",
+    "aws-sdk": "^2.809.0",
     "jest": "^26.4.2",
     "ts-jest": "^26.2.0",
-    "aws-cdk": "1.78.0",
     "ts-node": "^9.0.0",
     "typescript": "~3.9.7"
   },
   "dependencies": {
     "@aws-cdk/core": "1.78.0",
+    "@types/aws-sdk": "^2.7.0",
+    "@types/node-fetch": "^2.5.7",
+    "node-fetch": "^2.6.1",
     "source-map-support": "^0.5.16"
   }
 }

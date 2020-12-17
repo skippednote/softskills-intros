@@ -6,8 +6,7 @@ import { SqsEventSource } from '@aws-cdk/aws-lambda-event-sources';
 import * as dynamodb from '@aws-cdk/aws-dynamodb';
 import * as iam from '@aws-cdk/aws-iam';
 import * as sqs from '@aws-cdk/aws-sqs';
-import * as apigatewayv2 from '@aws-cdk/aws-apigatewayv2';
-import { LambdaProxyIntegration } from '@aws-cdk/aws-apigatewayv2-integrations';
+import * as apigateway from '@aws-cdk/aws-apigateway';
 import { Duration } from '@aws-cdk/core';
 import * as cloudfront from '@aws-cdk/aws-cloudfront';
 import * as s3deploy from '@aws-cdk/aws-s3-deployment';
@@ -16,12 +15,6 @@ import { CloudFrontAllowedMethods } from '@aws-cdk/aws-cloudfront';
 export class SoftskillsStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
-
-    const httpApi = new apigatewayv2.HttpApi(this, 'HttpApi', {
-      corsPreflight: {
-        maxAge: Duration.seconds(86400),
-      },
-    });
 
     const layer = lambda.LayerVersion.fromLayerVersionArn(
       this,
@@ -208,14 +201,15 @@ export class SoftskillsStack extends cdk.Stack {
       })
     );
 
-    const httpApiIntegration = new LambdaProxyIntegration({
+    const api = new apigateway.LambdaRestApi(this, 'api', {
       handler: getBytes,
-    });
-
-    httpApi.addRoutes({
-      path: '/api/bytes',
-      methods: [apigatewayv2.HttpMethod.GET],
-      integration: httpApiIntegration,
+      defaultMethodOptions: {
+        apiKeyRequired: false,
+      },
+      deployOptions: {
+        cachingEnabled: false,
+        cacheTtl: Duration.seconds(0),
+      },
     });
 
     const cfOAI = new cloudfront.OriginAccessIdentity(this, 'cloudfrontOAI');
@@ -257,12 +251,14 @@ export class SoftskillsStack extends cdk.Stack {
         originConfigs: [
           {
             customOriginSource: {
-              domainName: `${httpApi.httpApiId}.execute-api.${this.region}.amazonaws.com`,
+              domainName: `${api.restApiId}.execute-api.${this.region}.amazonaws.com`,
+              originPath: '/prod',
             },
             behaviors: [
               {
-                pathPattern: '/api/*',
+                pathPattern: 'api/*',
                 allowedMethods: cloudfront.CloudFrontAllowedMethods.ALL,
+                minTtl: Duration.seconds(3600),
                 cachedMethods:
                   cloudfront.CloudFrontAllowedCachedMethods.GET_HEAD_OPTIONS,
               },

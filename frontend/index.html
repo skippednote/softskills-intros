@@ -10,13 +10,13 @@
 
     <script>
       async function main() {
-        const list = document.getElementById('ul');
+        const list = document.createElement('ul');
         const fragment = document.createDocumentFragment();
         const bytes = await fetch('/api/bytes').then((r) => r.json());
         bytes.map(({ ep, text }) => {
           var item = document.createElement('li');
           item.textContent = `${ep}: ${text}`;
-          fragment.appendChild(list);
+          fragment.appendChild(item);
         });
         list.appendChild(fragment);
         document.body.appendChild(list);

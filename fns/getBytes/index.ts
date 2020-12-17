@@ -11,18 +11,13 @@ export const handler = async (event: any = {}): Promise<any> => {
         TableName: TABLE_NAME!,
       })
       .promise();
-    // const { Items } = await ddb
-    //   .scan({
-    //     TableName: TABLE_NAME!,
-    //   })
-    //   .promise();
     const sortedItems = Items!.sort((a, b) => a.ep - b.ep);
     return {
-      statusCode: 201,
+      statusCode: 200,
       body: JSON.stringify(sortedItems),
-      headers: {
-        'Cache-Control': 'max-age=86400',
-      },
+      // headers: {
+      //   'Cache-Control': 'max-age=86400',
+      // },
     };
   } catch (e) {
     console.log(e);

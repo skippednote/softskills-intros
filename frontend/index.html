@@ -3,23 +3,174 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>It takes more than great code to be a great engineer</title>
+    <title>✨ It takes more than great code to be a great engineer ✨</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Andika&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: Andika, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+          Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue',
+          sans-serif;
+        background: #1c1d1f;
+      }
+
+      .fold {
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        text-align: center;
+        position: relative;
+      }
+
+      h1 {
+        margin: -40px auto 0;
+        background: linear-gradient(
+          180deg,
+          #28292c 0%,
+          rgba(39, 40, 43, 0.82) 100%
+        );
+        font-weight: normal;
+        border-radius: 5px;
+        color: #f7f8f8;
+        padding: 2rem;
+        width: 80%;
+        max-width: 800px;
+        min-height: 250px;
+        display: grid;
+        place-items: center;
+      }
+
+      button {
+        -webkit-appearance: none;
+        border: none;
+        background: #39f;
+        color: #f7f8f8;
+        padding: 0.5rem;
+        border-radius: 2px;
+        margin-top: 1rem;
+      }
+
+      a {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: #f7f8f8;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+        width: 80%;
+        max-width: 800px;
+        margin: auto;
+      }
+
+      li {
+        background: linear-gradient(
+          180deg,
+          #28292c 0%,
+          rgba(39, 40, 43, 0.82) 100%
+        );
+        color: #f7f8f8;
+        margin-bottom: 10px;
+        padding: 1rem 2rem;
+      }
+
+      .text {
+        font-size: 1.5rem;
+      }
+
+      .text::first-letter {
+        text-transform: uppercase;
+      }
+
+      .ep {
+        text-align: right;
+        opacity: 0.75;
+      }
+    </style>
   </head>
   <body>
-    <h1>It takes more than great code to be a great engineer</h1>
+    <div class="fold">
+      <div class="container">
+        <h1 class="placeholder">
+          It takes more than great code to be a great engineer
+        </h1>
+        <button class="random">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-shuffle"
+            viewBox="0 0 16 16"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M0 3.5A.5.5 0 0 1 .5 3H1c2.202 0 3.827 1.24 4.874 2.418.49.552.865 1.102 1.126 1.532.26-.43.636-.98 1.126-1.532C9.173 4.24 10.798 3 13 3v1c-1.798 0-3.173 1.01-4.126 2.082A9.624 9.624 0 0 0 7.556 8a9.624 9.624 0 0 0 1.317 1.918C9.828 10.99 11.204 12 13 12v1c-2.202 0-3.827-1.24-4.874-2.418A10.595 10.595 0 0 1 7 9.05c-.26.43-.636.98-1.126 1.532C4.827 11.76 3.202 13 1 13H.5a.5.5 0 0 1 0-1H1c1.798 0 3.173-1.01 4.126-2.082A9.624 9.624 0 0 0 6.444 8a9.624 9.624 0 0 0-1.317-1.918C4.172 5.01 2.796 4 1 4H.5a.5.5 0 0 1-.5-.5z"
+            ></path>
+            <path
+              d="M13 5.466V1.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384l-2.36 1.966a.25.25 0 0 1-.41-.192zm0 9v-3.932a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384l-2.36 1.966a.25.25 0 0 1-.41-.192z"
+            ></path>
+          </svg>
+        </button>
+        <a href="#all"
+          ><svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-chevron-down"
+            viewBox="0 0 16 16"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
+            ></path></svg
+        ></a>
+      </div>
+    </div>
+    <div id="all"></div>
 
     <script>
+      function setRandom(bytes) {
+        const h1 = document.querySelector('h1');
+        const random = Math.floor(Math.random() * bytes.length);
+        h1.textContent = bytes[random].text;
+      }
       async function main() {
+        const btnRandom = document.querySelector('.random');
+        const all = document.querySelector('#all');
         const list = document.createElement('ul');
         const fragment = document.createDocumentFragment();
         const bytes = await fetch('/api/bytes').then((r) => r.json());
-        bytes.map(({ ep, text }) => {
+        btnRandom.addEventListener('click', () => setRandom(bytes));
+        setRandom(bytes);
+
+        bytes.forEach(({ ep, text }) => {
           var item = document.createElement('li');
-          item.textContent = `${ep}: ${text}`;
+          const t = document.createElement('p');
+          t.textContent = text;
+          t.className = 'text';
+          const e = document.createElement('p');
+          e.textContent = 'Episode: ' + String(ep);
+          e.className = 'ep';
+          item.appendChild(t);
+          item.appendChild(e);
           fragment.appendChild(item);
         });
         list.appendChild(fragment);
-        document.body.appendChild(list);
+        all.appendChild(list);
       }
       main();
     </script>
